@@ -1,0 +1,40 @@
+<table class="table table-striped table-bordered">
+  <thead>
+      <tr>
+          <th>Task name</th>
+          <th>Original estimate</th>
+          <th>Remaining estimate</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input [(ngModel)]="newTask.name" class="form-control" type="text" name="{{newTask.name}}" />
+      </td>
+      <td>
+        <input [(ngModel)]="newTask.originalEstimate" class="form-control" type="number" name="{{newTask.originalEstimate}}" />
+      </td>
+      <td>
+        <input [(ngModel)]="newTask.remainingEstimate" class="form-control" type="number" name="{{newTask.remainingEstimate}}" />
+      </td>
+      <td>
+        <button class="btn btn-success" type="button" (click)="addTask()">Add</button>
+      </td>
+    </tr>
+    <tr *ngFor="let task of tasks; let i = index">
+      <td>
+        <input [(ngModel)]="task.name" class="form-control" type="text" name="{{task.name}}" />
+      </td>
+      <td>
+        <input [(ngModel)]="task.originalEstimate" class="form-control" type="number" name="{{task.originalEstimate}}" />
+      </td>
+      <td>
+        <input [(ngModel)]="task.remainingEstimate" class="form-control" type="number" name="{{task.remainingEstimate}}" />
+      </td>
+      <td>
+        <button class="btn btn-danger" type="button" (click)="deleteTask(i)">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<button class="btn btn-dark" type="button" (click)="draw()">Draw</button>
