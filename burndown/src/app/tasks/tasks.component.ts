@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 import { Task } from '../Task';
 import { TaskDataService } from '../task-data.service';
+import { Mode } from '../Mode';
 
 @Component({
   selector: 'app-tasks',
@@ -8,6 +11,7 @@ import { TaskDataService } from '../task-data.service';
   styleUrls: ['./tasks.component.css']
 })
 export class TasksComponent implements OnInit {
+  private mode: Mode = Mode.Estimation;
   private tasks: Array<Task> = [];
   private newTask: Task = {
     name: null,
@@ -15,9 +19,11 @@ export class TasksComponent implements OnInit {
     remainingEstimate: null
   };
 
-  constructor (private taskDataService: TaskDataService) { }
+  constructor (private route: ActivatedRoute, private taskDataService: TaskDataService) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.mode = Mode.Estimation;
+  }
 
   addTask() {
     this.tasks.push(this.newTask);
@@ -34,5 +40,10 @@ export class TasksComponent implements OnInit {
 
   draw() {
     this.taskDataService.updateDataToDraw(this.tasks);
+  }
+
+  startSprint() {
+    this.mode = Mode.Active;
+    this.draw();
   }
 }

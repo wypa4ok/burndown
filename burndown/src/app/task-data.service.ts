@@ -8,7 +8,7 @@ import { Task } from './Task';
   providedIn: 'root'
 })
 export class TaskDataService {
-  private NUMBER_OF_DAYS = 7;
+  public NUMBER_OF_DAYS = 10;
   private dataPoints: Array<DataPoint> = [];
   updatedDataPoints: BehaviorSubject<Array<DataPoint>> = new BehaviorSubject([]);
 
@@ -41,7 +41,7 @@ export class TaskDataService {
 
   private initData() {
     if (this.dataPoints.length == 0) {
-      for (let i = 0; i < this.NUMBER_OF_DAYS; i++) {
+      for (let i = 1; i <= this.NUMBER_OF_DAYS + 1; i++) {
         this.dataPoints.push({
           index: i,
           originalValue: -1,
@@ -53,18 +53,6 @@ export class TaskDataService {
 
   public getData() : Array<DataPoint> {
     return this.dataPoints;
-    // const dataPoints: Array<DataPoint> = [];
-
-    // dataPoints.push({index: 1, originalValue: 20, remainingValue: 20});
-    // dataPoints.push({index: 2, originalValue: 17, remainingValue: 19});
-    // dataPoints.push({index: 3, originalValue: 14, remainingValue: 15});
-    // dataPoints.push({index: 4, originalValue: 11, remainingValue: 10});
-    // dataPoints.push({index: 5, originalValue: 8, remainingValue: 11});
-    // dataPoints.push({index: 6, originalValue: 5, remainingValue: 9});
-    // dataPoints.push({index: 7, originalValue: 2, remainingValue: 5});
-    // dataPoints.push({index: 8, originalValue: 0, remainingValue: 2});
-
-    // return dataPoints;
   }
 
   constructor() { }
