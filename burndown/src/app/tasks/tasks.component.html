@@ -44,8 +44,8 @@
             </tr>
           </tbody>
         </table>
-        <button *ngIf="mode === 'Active'" class="btn btn-success" type="button" (click)="draw()">Update Progress</button>
-        <button *ngIf="mode === 'Estimation'" class="btn btn-danger" type="button" (click)="startSprint()">Start Sprint</button>
+        <button *ngIf="mode === 'Active'" class="btn btn-success" type="button" (click)="updateSprint()">Update Progress</button>
+        <button *ngIf="mode === 'Estimation'" class="btn btn-danger" type="button" (click)="createSprint()">Start Sprint</button>
     </div>
     <div *ngIf="mode === 'Active'" class="col"><app-chart></app-chart></div>
   </div>

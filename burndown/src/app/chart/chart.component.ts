@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { TaskDataService } from '../task-data.service';
-import { DataPoint } from '../DataPoint';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { TaskDataService } from '../services/task-data.service';
+import { DataPoint } from '../model/DataPoint';
+import { Observable } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-chart',
@@ -15,7 +18,9 @@ export class ChartComponent implements OnInit {
   public lineChartData:Array<any> = [];
   public lineChartLabels:Array<any> = [];
 
-  constructor(private taskDataService: TaskDataService) { }
+  private dataPoints: Observable<DataPoint[]>;
+
+  constructor(private afs: AngularFirestore, private taskDataService: TaskDataService) { }
 
   ngOnInit() {
     this.updateValues();
@@ -24,19 +29,21 @@ export class ChartComponent implements OnInit {
    }
 
    private updateValues() {
-    this.original = this.taskDataService.getData().map(data => data.originalValue);
-    this.remaining = this.taskDataService.getData()
-                                        .filter(data => (data.remainingValue != -1))
+    this.original = this.taskDataService.loadSprint().map(data => data.originalValue);
+    this.remaining = this.taskDataService.loadSprint()
+                                        .filter(data => (moment(data.date) <= moment().startOf('day')))
                                         .map(data => data.remainingValue);
+    
     this.lineChartData = [
       {data: this.original, label: 'Ideal'},
       {data: this.remaining, label: 'Real'},
     ];
+
   }
 
   private initLabels() {
     this.lineChartLabels = [];
-    for (let i = 1; i <= this.taskDataService.NUMBER_OF_DAYS + 1; i++) {
+    for (let i = 0; i <= 10; i++) {
       this.lineChartLabels.push('Day ' + i);
     }
   }
